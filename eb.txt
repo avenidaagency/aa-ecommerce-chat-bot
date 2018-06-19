@@ -1,0 +1,2 @@
+eb create prod -i t2.micro -k eb_sysops.pem --single -r us-east-1
+
