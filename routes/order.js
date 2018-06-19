@@ -11,6 +11,10 @@ class OrderRouter {
     setRoute() {
         let { db, botly } = this.bundle;
 
+        order.get('/health', (req, res) => {
+            res.send('Hello there ;)')
+        })
+
         order.post('/', (req, res) => {
             console.log('Request - ' + JSON.stringify(req.body))
 
