@@ -1,0 +1,28 @@
+{
+  "name": "techninjas",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.heroku.com/techninjas.git"
+  },
+  "author": "RhumRoot",
+  "license": "ISC",
+  "engines": {
+    "node": "8.9.x"
+  },
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "body-parser": "^1.18.3",
+    "botly": "^1.6.1",
+    "events": "^1.1.1",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.14",
+    "request": "^2.83.0",
+    "uuid": "^3.1.0"
+  }
+}
