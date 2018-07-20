@@ -9,17 +9,17 @@ class Bot {
         let { botly, db, base64 } = this.bundle
 
         botly.on("message", (senderId, message, data) => {
-            let text = `echo: ${data.text}`;
+            console.log(`\n[INFO] Message from ${senderId}:\n`, JSON.stringify(message))
+            console.log('\n[INFO] Data:\n', JSON.stringify(data))
 
-            console.log('Message - ' + JSON.stringify(message))
-            console.log('Data - ' + JSON.stringify(data))
-
+            
+            let text = `echo: ${data.text}`
 
             botly.sendText({
                 id: senderId,
                 text: text
-            });
-        });
+            })
+        })
 
         botly.on("postback", (sender, message, postback, ref) => {
             console.log('post')
@@ -29,14 +29,16 @@ class Bot {
              */
         });
 
-        botly.on("referral", (sender, message, ref) => {
-            console.log('Ref sender - ' + JSON.stringify(sender))
-            console.log('Ref Message - ' + JSON.stringify(message))
-            console.log('Ref ref - ' + JSON.stringify(ref))
+        botly.on("optin", (sender, message, optin) => {
+            console.log('\n[INFO] Optin sender:\n', JSON.stringify(sender))
+            console.log('\n[INFO] Optin Message:\n', JSON.stringify(message))
+            console.log('\n[INFO] Optin ref:\n', JSON.stringify(optin))
 
             try {
-                let order = base64.decode(ref)
+                let order = base64.decode(optin)
                 order = JSON.parse(order)
+
+                console.log('\n[INFO] Parsed ref:\n', order)
 
                 if (order.email && order.orderId) {
                     db.createRef(sender, order, (status, user) => {
@@ -66,14 +68,14 @@ class Bot {
                                         }
                                     }
                                 })
-                            }, 40000);
+                            }, 120000);
                         }
                     })
                 } else {
-                    console.log(`~~~ Error, while handling referral, there is no email or orderId - ${ref}`)
+                    console.log(`~~~ Error, while handling referral, there is no email or orderId - ${optin}`)
                 }
             } catch (error) {
-                console.log(`~~~ Error while decoding ref link - "${ref}" - ` + error)
+                console.log(`~~~ Error while decoding ref link - "${optin}" - ` + error)
             }
         });
     }

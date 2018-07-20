@@ -12,10 +12,10 @@ const uuid = require('uuid/v1');
 const db = require('./db/client');
 
 //Server init
-const express = require('express');
-const bodyParser = require('body-parser');
-const server = express();
-const request = require("request");
+const request = require("request")
+const bodyParser = require('body-parser')
+const express = require('express')
+const server = express()
 
 const Botly = require("botly");
 const botly = new Botly({
@@ -36,7 +36,7 @@ const bot = new (require('./bot'))(bundle)
 bot.restoreApproveChecking()
 
 // Adds support for GET requests to our webhook
-server.get('/facebook/webhook', (req, res) => {
+/* server.get('/facebook/webhook', (req, res) => {
     // Parse the query params
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
@@ -57,7 +57,7 @@ server.get('/facebook/webhook', (req, res) => {
             res.sendStatus(403);
         }
     }
-});
+}) */
 
 const order = new (require('./routes/order'))(Object.assign(bundle, { bot }));
 server.use('/order', order.getRoute());
