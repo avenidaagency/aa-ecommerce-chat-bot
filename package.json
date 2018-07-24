@@ -16,6 +16,7 @@
     "node": "8.9.x"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "body-parser": "^1.18.3",
     "botly": "^1.6.1",

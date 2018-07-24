@@ -2,7 +2,7 @@
 //Configs
 const config = require("./config.json")
 const PORT = process.env.PORT || 3000;
-const URL = process.env.URL || 'https://techninjas.herokuapp.com';
+/*const URL = process.env.URL || 'https://techninjas.herokuapp.com'; */
 
 //Decoding module
 const base64 = require('base-64');
@@ -12,7 +12,7 @@ const uuid = require('uuid/v1');
 const db = require('./db/client');
 
 //Server init
-const request = require("request")
+const axios = require("axios")
 const bodyParser = require('body-parser')
 const express = require('express')
 const server = express()
@@ -27,16 +27,32 @@ const botly = new Botly({
 
 //Setting up server
 server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use("/facebook/webhook", botly.router());
+server.use(bodyParser.urlencoded({ extended: false }))
 
-const bundle = { server, request, db, botly, base64, config }
+server.post('/facebook/webhook', (req, res, next) => {
+    console.log('[INFO] FB req:\n')
+    console.log(JSON.stringify(req.body))
+
+    try {
+        let message = req.body.entry[0].messaging[0]
+        message.optin ? (
+            bot.handleOptin(message),
+            res.sendStatus(200)
+        ) : next()
+    } catch (e) {
+        next()
+    }
+})
+
+server.use("/facebook/webhook", botly.router())
+
+const bundle = { server, axios, db, botly, base64, config }
 const bot = new (require('./bot'))(bundle)
 
 bot.restoreApproveChecking()
 
 // Adds support for GET requests to our webhook
-/* server.get('/facebook/webhook', (req, res) => {
+server.get('/facebook/webhook', (req, res) => {
     // Parse the query params
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
@@ -57,7 +73,7 @@ bot.restoreApproveChecking()
             res.sendStatus(403);
         }
     }
-}) */
+})
 
 const order = new (require('./routes/order'))(Object.assign(bundle, { bot }));
 server.use('/order', order.getRoute());
@@ -67,7 +83,7 @@ server.listen(PORT, () => {
 });
 
 /* let obj = {
-    orderId: 'test1', 
+    orderId: 'N_2', 
     email: "test1@gmail.com", 
     url: 'https://www.npmjs.com/'
 }

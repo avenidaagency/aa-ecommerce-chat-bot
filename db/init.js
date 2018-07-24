@@ -11,6 +11,7 @@ class Init {
             _id: String,
             email: String,
             sender: String,
+            user_ref: String,
             orders: [{
                 orderId: String,
                 url: String,

@@ -9,11 +9,7 @@ class OrderRouter {
     }
 
     setRoute() {
-        let { db, botly } = this.bundle;
-
-        order.get('/health', (req, res) => {
-            res.send('Hello there ;)')
-        })
+        let { db, botly, bot } = this.bundle;
 
         order.post('/', (req, res) => {
             console.log('Request - ' + JSON.stringify(req.body))
@@ -63,10 +59,12 @@ class OrderRouter {
                 console.log('order user - ' + JSON.stringify(user))
 
                 if (status == 'approved' && user) {
+                    bot.sendText(user, `We've received your payment, your order will be on it's way soon.`)
+/* 
                     botly.sendText({
                         id: user.sender,
                         text: `We've received your payment, your order will be on it's way soon.`
-                    });
+                    }); */
 
                     res.send({
                         status: 'success',

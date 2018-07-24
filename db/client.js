@@ -1,10 +1,10 @@
-const db = new (require('./controller'))('mongodb://techninjas:1gwN5L7boSs3@54.157.196.120:27017/techninjas');
+const db = new (require('./controller'))('mongodb://techninjas:techninjas4321@ds263380.mlab.com:63380/techninjas');
 const uuid = require('uuid/v1');
 
 module.exports = {
     createRef: (sender, order, cb) => {
         db.getUser({ email: order.email }, (err, user) => {
-            if (err) {
+            if (err || !user) {
                 let draftUser = db.getDraftUser()
 
                 draftUser._id = uuid()
@@ -194,11 +194,11 @@ module.exports = {
         getAgents: (cb) => {
             db.getAgents(cb);
         },
-
+    
         updateAgent: (agent, cb) => {
             db.updateAgent(agent, cb);
         },
-
+    
         updateRequests: (bot, cb) => {
             db.updateRequests(bot, cb);
         } */
