@@ -12,13 +12,12 @@ class Bot {
             console.log(`\n[INFO] Message from ${senderId}:\n`, JSON.stringify(message))
             console.log('\n[INFO] Data:\n', JSON.stringify(data))
 
-
-            let text = `echo: ${data.text}`
-
-            botly.sendText({
-                id: senderId,
-                text: text
-            })
+            if (/policy/g.test(data.text)) {
+                botly.sendText({
+                    id: senderId,
+                    text: 'Here are our terms of service: http://techninjas.shop/fit-control/main/terms'
+                })
+            }
         })
 
         botly.on("postback", (sender, message, postback, ref) => {
