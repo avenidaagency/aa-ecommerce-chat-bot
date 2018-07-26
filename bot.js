@@ -17,6 +17,11 @@ class Bot {
                     id: senderId,
                     text: 'Here are our terms of service: http://techninjas.shop/fit-control/main/terms'
                 })
+            } else {
+                botly.sendText({
+                    id: senderId,
+                    text: "This bot's function is to support customers of Techninjas online shop. Please visit http://techninjas.shop/fit-control/main/index to place your order"
+                })
             }
         })
 
